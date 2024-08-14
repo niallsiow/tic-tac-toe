@@ -39,12 +39,10 @@ function GameController(gameboard, player1, player2){
             this.gameboard.printGameboard();
 
             if(this.gameboard.checkForWin(this.current_player)){
-                // reset game state
-
-                // check if player wants to play again
-
                 console.log(`${this.current_player.name} Wins!`);
+                this.current_player.wins += 1;
 
+                this.gameboard.resetBoard();
                 this.current_player = player1;
                 continue;
             }
@@ -134,8 +132,16 @@ function createGameboard(){
 
         return false;
     }
+
+    const resetBoard = () => {
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                board[i][j] = 0;
+            }
+        }
+    }
     
-    return {printGameboard, setPosition, checkForWin, isPositionValid};
+    return {printGameboard, setPosition, checkForWin, isPositionValid, resetBoard};
 }
 
 
