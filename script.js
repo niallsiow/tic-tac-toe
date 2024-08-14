@@ -40,11 +40,6 @@ function GameController(gameboard, player1, player2){
                 position = this.current_player.getPosition();
             }
 
-            if(position.x == "q" || position.x == "quit" || 
-                position.y == "q" || position.y == "quit"){
-                    break;
-                }
-
             this.setPosition(position.x, position.y);
             gameboard.printGameboard();
 
