@@ -5,11 +5,6 @@ function GameController(gameboard, player1, player2){
 
     this.current_player;
 
-    this.setPosition = function(x, y){
-        // change this to a function setPosition on gameboard
-        this.gameboard.board[x][y] = this.current_player.token;
-    }
-
     // playAgain
 
     // reset
@@ -40,13 +35,15 @@ function GameController(gameboard, player1, player2){
                 position = this.current_player.getPosition();
             }
 
-            this.setPosition(position.x, position.y);
-            gameboard.printGameboard();
+            this.gameboard.setPosition(position, this.current_player);
+            this.gameboard.printGameboard();
 
-            if(gameboard.checkForWin(this.current_player)){
+            if(this.gameboard.checkForWin(this.current_player)){
                 // reset game state
 
                 // check if player wants to play again
+
+                console.log(`${this.current_player.name} Wins!`);
 
                 this.current_player = player1;
                 continue;
@@ -57,7 +54,8 @@ function GameController(gameboard, player1, player2){
     }
 }
 
-function Player(token, icon){
+function Player(name, token, icon){
+    this.name = name;
     this.token = token;
     this.icon = icon;
     this.wins = 0;
@@ -83,8 +81,8 @@ function createGameboard(){
         }
     }
 
-    const setPosition = (player) => {
-
+    const setPosition = (position, player) => {
+        board[position.x][position.y] = player.token;
     }
 
     const isPositionValid = (position) => {
@@ -137,7 +135,7 @@ function createGameboard(){
         return false;
     }
     
-    return {board, printGameboard, setPosition, checkForWin, isPositionValid};
+    return {printGameboard, setPosition, checkForWin, isPositionValid};
 }
 
 
@@ -145,8 +143,8 @@ function createGameboard(){
 const gameboard = createGameboard();
 gameboard.printGameboard();
 
-const player1 = new Player(1, "X");
-const player2 = new Player(2, "O");
+const player1 = new Player("Player 1", 1, "X");
+const player2 = new Player("Player 2", 2, "O");
 
 let gameController = new GameController(gameboard, player1, player2);
 
