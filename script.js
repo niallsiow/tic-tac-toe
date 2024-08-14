@@ -21,14 +21,6 @@ function GameController(gameboard, player1, player2){
     this.playGame = function(){
         this.current_player = player1;
         while(1){
-            if(this.current_player == this.player1){
-                console.log("current player = player1");
-            }
-            if(this.current_player == this.player2){
-                console.log("current player = player2");
-            }
-            
-            // need to repeat this until valid input entered
             let position = this.current_player.getPosition();
             while(!this.gameboard.isPositionValid(position)){
                 console.log("Invalid position, please enter a new one");
