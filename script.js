@@ -5,10 +5,6 @@ function GameController(gameboard, player1, player2){
 
     this.current_player;
 
-    // playAgain
-
-    // reset
-
     this.switchCurrentPlayer = function(){
         if(this.current_player == this.player1){
             this.current_player = this.player2;
@@ -21,15 +17,18 @@ function GameController(gameboard, player1, player2){
     this.playGame = function(){
         this.current_player = player1;
         while(1){
+            // get position
             let position = this.current_player.getPosition();
             while(!this.gameboard.isPositionValid(position)){
                 console.log("Invalid position, please enter a new one");
                 position = this.current_player.getPosition();
             }
 
+            // set and see new position
             this.gameboard.setPosition(position, this.current_player);
             this.gameboard.printGameboard();
 
+            // check for win
             if(this.gameboard.playerWin(this.current_player)){
                 console.log(`${this.current_player.name} Wins!`);
                 this.current_player.wins += 1;
@@ -39,6 +38,7 @@ function GameController(gameboard, player1, player2){
                 continue;
             }
 
+            // swap active player
             this.switchCurrentPlayer();
         }
     }
