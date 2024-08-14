@@ -35,6 +35,10 @@ function GameController(gameboard, player1, player2){
             
             // need to repeat this until valid input entered
             let position = this.current_player.getPosition();
+            while(!this.gameboard.isPositionValid(position)){
+                console.log("Invalid position, please enter a new one");
+                position = this.current_player.getPosition();
+            }
 
             if(position.x == "q" || position.x == "quit" || 
                 position.y == "q" || position.y == "quit"){
@@ -88,6 +92,13 @@ function createGameboard(){
 
     }
 
+    const isPositionValid = (position) => {
+        if(board[position.x][position.y] != 0){
+            return false;
+        }
+        return true;
+    }
+
     // check for wins
     const checkForWin = (player) => {
         // winning positions from the perspective of the middle square
@@ -131,7 +142,7 @@ function createGameboard(){
         return false;
     }
     
-    return {board, printGameboard, setPosition, checkForWin};
+    return {board, printGameboard, setPosition, checkForWin, isPositionValid};
 }
 
 
