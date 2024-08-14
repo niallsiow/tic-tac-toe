@@ -38,7 +38,7 @@ function GameController(gameboard, player1, player2){
             this.gameboard.setPosition(position, this.current_player);
             this.gameboard.printGameboard();
 
-            if(this.gameboard.checkForWin(this.current_player)){
+            if(this.gameboard.playerWin(this.current_player)){
                 console.log(`${this.current_player.name} Wins!`);
                 this.current_player.wins += 1;
 
@@ -91,7 +91,7 @@ function createGameboard(){
     }
 
     // check for wins
-    const checkForWin = (player) => {
+    const playerWin = (player) => {
         // winning positions from the perspective of the middle square
         const winning_positions = [
             // straight across
@@ -141,7 +141,7 @@ function createGameboard(){
         }
     }
     
-    return {printGameboard, setPosition, checkForWin, isPositionValid, resetBoard};
+    return {printGameboard, setPosition, playerWin, isPositionValid, resetBoard};
 }
 
 
