@@ -1,44 +1,41 @@
-// change to factory function
-function GameController(gameboard, player1, player2){
-    this.gameboard = gameboard;
-    this.player1 = player1;
-    this.player2 = player2;
+function createGameController(gameboard, player1, player2){
+    current_player = player1;
 
-    this.current_player;
-
-    this.switchCurrentPlayer = function(){
-        if(this.current_player == this.player1){
-            this.current_player = this.player2;
+    function switchCurrentPlayer(){
+        if(current_player == player1){
+            current_player = player2;
         }
         else{
-            this.current_player = this.player1;
+            current_player = player1;
         }
     }
 
-    this.playGame = function(){
-        this.current_player = player1;
+    const playGame = () => {
+        current_player = player1;
         while(1){
             // get position
-            let position = this.current_player.getPosition(this.gameboard);
+            let position = current_player.getPosition(gameboard);
 
             // set and see new position
-            this.gameboard.setPosition(position, this.current_player);
-            this.gameboard.printGameboard();
+            gameboard.setPosition(position, current_player);
+            gameboard.printGameboard();
 
             // check for win
-            if(this.gameboard.playerWin(this.current_player)){
-                console.log(`${this.current_player.name} Wins!`);
-                this.current_player.wins += 1;
+            if(gameboard.playerWin(current_player)){
+                console.log(`${current_player.name} Wins!`);
+                current_player.wins += 1;
 
-                this.gameboard.resetBoard();
-                this.current_player = player1;
+                gameboard.resetBoard();
+                current_player = player1;
                 continue;
             }
 
             // swap active player
-            this.switchCurrentPlayer();
+            switchCurrentPlayer();
         }
     }
+
+    return {playGame};
 }
 
 function createPlayer(name, token, icon, cpu){
@@ -164,6 +161,6 @@ gameboard.printGameboard();
 const player1 = createPlayer("Player 1", 1, "X");
 const player2 = createPlayer("Player 2", 2, "O", true);
 
-let gameController = new GameController(gameboard, player1, player2);
+const gameController = createGameController(gameboard, player1, player2);
 
 gameController.playGame();
