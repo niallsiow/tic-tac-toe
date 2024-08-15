@@ -41,22 +41,16 @@ function GameController(gameboard, player1, player2){
     }
 }
 
-// change to factory function
-function Player(name, token, icon, cpu=false){
-    this.name = name;
-    this.token = token;
-    this.icon = icon;
-    this.wins = 0;
+function createPlayer(name, token, icon, cpu){
+    let wins = 0;
 
-    this.cpu = cpu;
-
-    this.getPosition = function(gameboard) {
+    const getPosition = (gameboard) => {
         let position = {
             x: -1,
             y: -1
         }
 
-        if(this.cpu){
+        if(cpu){
             while(!gameboard.isPositionValid(position)){
                 position.x = Math.floor(Math.random() * 3);
                 position.y = Math.floor(Math.random() * 3);
@@ -74,6 +68,8 @@ function Player(name, token, icon, cpu=false){
 
         return position;
     }
+
+    return {name, token, icon, wins, getPosition};
 }
 
 function createGameboard(){
@@ -165,8 +161,8 @@ function createGameboard(){
 const gameboard = createGameboard();
 gameboard.printGameboard();
 
-const player1 = new Player("Player 1", 1, "X");
-const player2 = new Player("Player 2", 2, "O", true);
+const player1 = createPlayer("Player 1", 1, "X");
+const player2 = createPlayer("Player 2", 2, "O", true);
 
 let gameController = new GameController(gameboard, player1, player2);
 
