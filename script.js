@@ -77,7 +77,7 @@ function Player(name, token, icon, cpu=false){
 }
 
 function createGameboard(){
-    board = [
+    let board = [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0]
