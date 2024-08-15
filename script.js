@@ -19,11 +19,7 @@ function GameController(gameboard, player1, player2){
         this.current_player = player1;
         while(1){
             // get position
-            let position = this.current_player.getPosition();
-            while(!this.gameboard.isPositionValid(position)){
-                console.log("Invalid position, please enter a new one");
-                position = this.current_player.getPosition();
-            }
+            let position = this.current_player.getPosition(this.gameboard);
 
             // set and see new position
             this.gameboard.setPosition(position, this.current_player);
@@ -54,19 +50,29 @@ function Player(name, token, icon, cpu=false){
 
     this.cpu = cpu;
 
-    this.getPosition = function() {
-        let x = 0;
-        let y = 0;
-        if(this.cpu){
-            x = Math.floor(Math.random() * 3);
-            y = Math.floor(Math.random() * 3);
-        }
-        else{
-            x = prompt("Enter x position:");
-            y = prompt("Enter y position:");
+    this.getPosition = function(gameboard) {
+        let position = {
+            x: -1,
+            y: -1
         }
 
-        return {x, y};
+        if(this.cpu){
+            while(!gameboard.isPositionValid(position)){
+                position.x = Math.floor(Math.random() * 3);
+                position.y = Math.floor(Math.random() * 3);
+            }
+        }
+        else{
+            position.x = prompt("Enter x position:");
+            position.y = prompt("Enter y position:");
+            while(!gameboard.isPositionValid(position)){
+                console.log("Invalid position, please enter a new one");
+                position.x = prompt("Enter x position:");
+                position.y = prompt("Enter y position:");
+            }
+        }
+
+        return position;
     }
 }
 
@@ -88,6 +94,12 @@ function createGameboard(){
     }
 
     const isPositionValid = (position) => {
+        if(position.x < 0 || position.x >= 3){
+            return false;
+        }
+        if(position.y < 0 || position.y >= 3){
+            return false;
+        }
         if(board[position.x][position.y] != 0){
             return false;
         }
