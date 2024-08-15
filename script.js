@@ -1,3 +1,4 @@
+// change to factory function
 function GameController(gameboard, player1, player2){
     this.gameboard = gameboard;
     this.player1 = player1;
@@ -44,15 +45,26 @@ function GameController(gameboard, player1, player2){
     }
 }
 
-function Player(name, token, icon){
+// change to factory function
+function Player(name, token, icon, ai=false){
     this.name = name;
     this.token = token;
     this.icon = icon;
     this.wins = 0;
 
+    this.ai = ai;
+
     this.getPosition = function() {
-        const x = prompt("Enter x position:");
-        const y = prompt("Enter y position:");
+        let x = 0;
+        let y = 0;
+        if(this.ai){
+            x = Math.floor(Math.random() * 3);
+            y = Math.floor(Math.random() * 3);
+        }
+        else{
+            x = prompt("Enter x position:");
+            y = prompt("Enter y position:");
+        }
 
         return {x, y};
     }
@@ -142,7 +154,7 @@ const gameboard = createGameboard();
 gameboard.printGameboard();
 
 const player1 = new Player("Player 1", 1, "X");
-const player2 = new Player("Player 2", 2, "O");
+const player2 = new Player("Player 2", 2, "O", true);
 
 let gameController = new GameController(gameboard, player1, player2);
 
