@@ -46,18 +46,18 @@ function GameController(gameboard, player1, player2){
 }
 
 // change to factory function
-function Player(name, token, icon, ai=false){
+function Player(name, token, icon, cpu=false){
     this.name = name;
     this.token = token;
     this.icon = icon;
     this.wins = 0;
 
-    this.ai = ai;
+    this.cpu = cpu;
 
     this.getPosition = function() {
         let x = 0;
         let y = 0;
-        if(this.ai){
+        if(this.cpu){
             x = Math.floor(Math.random() * 3);
             y = Math.floor(Math.random() * 3);
         }
