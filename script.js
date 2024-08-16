@@ -1,7 +1,4 @@
-function createPosition(a, b){
-    const x = a;
-    const y = b;
-
+function createPosition(x, y){
     return {x, y};
 }
 
