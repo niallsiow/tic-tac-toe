@@ -38,12 +38,12 @@ function createGameController(player1, player2){
         console.log(current_player.name);
 
         // check for win
-        if(gameboard.playerWin(current_player)){
-            console.log(`${current_player.name} Wins!`);
-            current_player.wins += 1;
+        // if(gameboard.playerWin(current_player)){
+        //     console.log(`${current_player.name} Wins!`);
+        //     current_player.wins += 1;
 
-            return;
-        }
+        //     return;
+        // }
 
         switchCurrentPlayer();
 
@@ -169,17 +169,18 @@ function createGameboard(){
                         const pos1_c = j + position.pos1[1]
 
                         if(pos1_r < 0 || pos1_r >= 3 || pos1_c < 0 || pos1_c >= 3){
-                            break;
+                            continue;
                         }
 
                         const pos2_r = i + position.pos2[0]
                         const pos2_c = j + position.pos2[1]
 
                         if(pos2_r < 0 || pos2_r >= 3 || pos2_c < 0 || pos2_c >= 3){
-                            break;
+                            continue;
                         }
 
                         if(board[pos1_r][pos1_c] == player.token && board[pos2_r][pos2_c] == player.token){
+                            console.log(`${player.name} wins!`);
                             return true;
                         }
                     }
@@ -210,7 +211,19 @@ function createDisplayController(){
     
     const gameController = createGameController(player1, player2);
 
-    // set up board on screen
+    function updateDisplay(){
+        const win_div = document.getElementById("win");
+        const board = gameController.getGameboard();
+
+        if(board.playerWin(player1)){
+            win_div.textContent = `${player1.name} wins!`;
+        }
+        if(board.playerWin(player2)){
+            win_div.textContent = `${player2.name} wins!`;
+        }
+    }
+
+    // set up display
     const board_container = document.getElementById("board-container");
     
     for(let i = 0; i < 3; i++){
@@ -224,6 +237,8 @@ function createDisplayController(){
                 gameController.playRound(createPosition(i, j));
 
                 board_square.textContent = current_player.icon;
+
+                updateDisplay();
             });
     
             board_container.appendChild(board_square);
