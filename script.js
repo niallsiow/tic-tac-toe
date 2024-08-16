@@ -29,6 +29,7 @@ function createGameController(player1, player2){
 
     const setWinningPlayer = () => {
         winning_player = current_player;
+        winning_player.wins += 1;
     }
 
     const getWinningPlayer = () => {
@@ -203,7 +204,7 @@ function createDisplayController(){
         const winning_player = gameController.getWinningPlayer();
 
         if(winning_player){
-            win_div.textContent = `${winning_player.name} Wins!`;
+            win_div.textContent = `${winning_player.name} Wins! ${winning_player.name} has ${winning_player.wins} wins.`;
 
             // play again + reset logic here (bring up a dialog box for playing again and display winning player + number of wins)
         }
