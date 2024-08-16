@@ -94,14 +94,14 @@ function createGameboard(){
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0]
-    ]
+    ];
 
     const getBoardState = () => {
         let board_copy = [
             [0, 0, 0],
             [0, 0, 0],
             [0, 0, 0]
-        ]
+        ];
 
         for(let i = 0; i < 3; i++){
             for(let j = 0; j < 3; j++){
@@ -209,14 +209,34 @@ function createDisplayController(){
         if(board.playerWin(player2)){
             win_div.textContent = `${player2.name} wins!`;
         }
+
+        const board_state = board.getBoardState();
+
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                if(board_state[i][j] == player1.token){
+                    board_squares[i][j].textContent = player1.icon;
+                }
+                if(board_state[i][j] == player2.token){
+                    board_squares[i][j].textContent = player2.icon;
+                }
+            }
+        }
     }
 
     // set up display
     const board_container = document.getElementById("board-container");
+    const board_squares = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+    ];
     
     for(let i = 0; i < 3; i++){
         for(let j = 0; j < 3; j++){
             const board_square = document.createElement("div");
+            board_squares[i][j] = board_square;
+
             board_square.classList.add("board-square");
     
             board_square.addEventListener("click", () => {
@@ -224,10 +244,6 @@ function createDisplayController(){
 
                 // verify input
                 gameController.playRound(createPosition(i, j));
-
-
-                // move to update display
-                board_square.textContent = current_player.icon;
 
                 updateDisplay();
             });
