@@ -213,9 +213,6 @@ function createGameboard(){
     return {getBoardState, printGameboardToConsole, setPosition, didPlayerWin, isFull, isPositionValid, resetBoard};
 }
 
-function createDisplay(gameController){
-}
-
 function createDisplayController(){ 
     const player1 = createPlayer("Player 1", 1, "X");
     const player2 = createPlayer("CPU player", 2, "O");
