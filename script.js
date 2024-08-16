@@ -58,34 +58,6 @@ function createGameController(player1, player2){
         // swap player -> gamecontroller
     }
 
-    const playGame = () => {
-        gameboard.printGameboard();
-        
-        current_player = player1;
-        
-        while(1){
-            // get position
-            let position = current_player.getPosition(gameboard);
-
-            // set and see new position
-            gameboard.setPosition(position, current_player);
-            gameboard.printGameboard();
-
-            // check for win
-            if(gameboard.playerWin(current_player)){
-                console.log(`${current_player.name} Wins!`);
-                current_player.wins += 1;
-
-                gameboard.resetBoard();
-                current_player = player1;
-                continue;
-            }
-
-            // swap active player
-            switchCurrentPlayer();
-        }
-    }
-
     return {getGameboard, getCurrentPlayer, playRound};
 }
 
@@ -123,6 +95,22 @@ function createGameboard(){
         [0, 0, 0],
         [0, 0, 0]
     ]
+
+    const getBoardState = () => {
+        let board_copy = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ]
+
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                board_copy[i][j] = board[i][j];
+            }
+        }
+
+        return board_copy;
+    }
     
     const printGameboard = () => {
         for(let i = 0; i < 3; i++){
@@ -199,7 +187,7 @@ function createGameboard(){
         }
     }
     
-    return {printGameboard, setPosition, playerWin, isPositionValid, resetBoard};
+    return {getBoardState, printGameboard, setPosition, playerWin, isPositionValid, resetBoard};
 }
 
 function createDisplay(gameController){
@@ -234,8 +222,11 @@ function createDisplayController(){
             board_square.addEventListener("click", () => {
                 let current_player = gameController.getCurrentPlayer();
 
+                // verify input
                 gameController.playRound(createPosition(i, j));
 
+
+                // move to update display
                 board_square.textContent = current_player.icon;
 
                 updateDisplay();
