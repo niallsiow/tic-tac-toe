@@ -197,13 +197,20 @@ function createDisplayController(){
     const gameController = createGameController(player1, player2);
 
     function updateDisplay(){
+        const current_player_div = document.getElementById("current-player");
+        let current_player = gameController.getCurrentPlayer();
+        current_player_div.textContent = `Current Player: ${current_player.name}`;
+
         const win_div = document.getElementById("win");
         const winning_player = gameController.getWinningPlayer();
 
         if(winning_player){
+            current_player_div.textContent = `Current Player: ${winning_player.name}`;
+            
             win_div.textContent = `${winning_player.name} Wins! ${winning_player.name} has ${winning_player.wins} wins.`;
 
-            // play again + reset logic here (bring up a dialog box for playing again and display winning player + number of wins)
+            // bring up a dialog box for playing again and display winning player + number of wins
+
         }
         else{
             win_div.textContent = "";
@@ -243,10 +250,7 @@ function createDisplayController(){
             board_square.classList.add("board-square");
     
             board_square.addEventListener("click", () => {
-                let current_player = gameController.getCurrentPlayer();
-
                 gameController.playRound(createPosition(i, j));
-
                 updateDisplay();
             });
     
@@ -261,6 +265,8 @@ function createDisplayController(){
             updateDisplay();
         }
     });
+
+    updateDisplay();
 }
 
 const display = createDisplayController();
