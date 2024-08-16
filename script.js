@@ -222,6 +222,8 @@ function createDisplayController(){
     
     const gameController = createGameController(player1, player2);
 
+    const play_again_dialog = document.getElementById("play-again-dialog");
+
     function updateDisplay(){
         const current_player_div = document.getElementById("current-player");
         let current_player = gameController.getCurrentPlayer();
@@ -235,11 +237,12 @@ function createDisplayController(){
             
             win_div.textContent = `${winning_player.name} Wins! ${winning_player.name} has ${winning_player.wins} wins.`;
 
-            // bring up a dialog box for playing again and display winning player + number of wins
-
+            play_again_dialog.showModal();
         }
         else if(gameController.getDraw()){
-            win_div.textContent = "Draw...";
+            win_div.textContent = `Draw! ${player1.name} has ${player1.wins} wins, ${player2.name} has ${player2.wins} wins.`;
+
+            play_again_dialog.showModal();
         }
         else{
             win_div.textContent = "";
@@ -294,14 +297,9 @@ function createDisplayController(){
 
     const play_again_button = document.getElementById("play-again");
     play_again_button.addEventListener("click", () => {
-        if(gameController.getWinningPlayer()){
-            gameController.resetGame();
-            updateDisplay();
-        }
-        if(gameController.getDraw()){
-            gameController.resetGame();
-            updateDisplay();
-        }
+        gameController.resetGame();
+        updateDisplay();
+        play_again_dialog.close();
     });
 
     updateDisplay();
