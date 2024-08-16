@@ -8,6 +8,7 @@ function createPosition(a, b){
 function createGameController(player1, player2){
     let gameboard = createGameboard();
     let current_player = player1;
+    let winning_player = null;
 
     function getGameboard(){
         return gameboard;
@@ -26,8 +27,12 @@ function createGameController(player1, player2){
         return current_player;
     }
 
-    const didPlayerWin = () => {
+    const setWinningPlayer = () => {
+        winning_player = current_player;
+    }
 
+    const getWinningPlayer = () => {
+        return winning_player;
     }
 
     const playRound = (position) => {
@@ -39,10 +44,14 @@ function createGameController(player1, player2){
 
         gameboard.printGameboardToConsole();
 
+        if(gameboard.didPlayerWin(current_player)){
+            setWinningPlayer();
+        }
+
         switchCurrentPlayer();
     }
 
-    return {getGameboard, getCurrentPlayer, playRound};
+    return {getGameboard, getCurrentPlayer, getWinningPlayer, playRound};
 }
 
 function createPlayer(name, token, icon, cpu){
@@ -120,7 +129,7 @@ function createGameboard(){
     }
 
     // check for wins
-    const playerWin = (player) => {
+    const didPlayerWin = (player) => {
         // winning positions from the perspective of the middle square
         const winning_positions = [
             // straight across
@@ -171,7 +180,7 @@ function createGameboard(){
         }
     }
     
-    return {getBoardState, printGameboardToConsole, setPosition, playerWin, isPositionValid, resetBoard};
+    return {getBoardState, printGameboardToConsole, setPosition, didPlayerWin, isPositionValid, resetBoard};
 }
 
 function createDisplay(gameController){
@@ -185,15 +194,15 @@ function createDisplayController(){
 
     function updateDisplay(){
         const win_div = document.getElementById("win");
+        const winning_player = gameController.getWinningPlayer();
+
+        if(winning_player){
+            win_div.textContent = `${winning_player.name} Wins!`;
+
+            // play again + reset logic here
+        }
+
         const board = gameController.getGameboard();
-
-        if(board.playerWin(player1)){
-            win_div.textContent = `${player1.name} wins!`;
-        }
-        if(board.playerWin(player2)){
-            win_div.textContent = `${player2.name} wins!`;
-        }
-
         const board_state = board.getBoardState();
 
         for(let i = 0; i < 3; i++){
