@@ -31,31 +31,15 @@ function createGameController(player1, player2){
     }
 
     const playRound = (position) => {
+        if(!gameboard.isPositionValid(position)){
+            return;
+        }
+
         gameboard.setPosition(position, current_player);
 
-        gameboard.printGameboard();
-
-        console.log(current_player.name);
-
-        // check for win
-        // if(gameboard.playerWin(current_player)){
-        //     console.log(`${current_player.name} Wins!`);
-        //     current_player.wins += 1;
-
-        //     return;
-        // }
+        gameboard.printGameboardToConsole();
 
         switchCurrentPlayer();
-
-        // get a position -> screen controller callback
-
-        // update the position -> gameboard
-
-        // update the display -> screen controller
-
-        // check for a win -> gameboard
-
-        // swap player -> gamecontroller
     }
 
     return {getGameboard, getCurrentPlayer, playRound};
@@ -112,7 +96,7 @@ function createGameboard(){
         return board_copy;
     }
     
-    const printGameboard = () => {
+    const printGameboardToConsole = () => {
         for(let i = 0; i < 3; i++){
             console.log(`${board[i][0]} ${board[i][1]} ${board[i][2]}`);
         }
@@ -187,7 +171,7 @@ function createGameboard(){
         }
     }
     
-    return {getBoardState, printGameboard, setPosition, playerWin, isPositionValid, resetBoard};
+    return {getBoardState, printGameboardToConsole, setPosition, playerWin, isPositionValid, resetBoard};
 }
 
 function createDisplay(gameController){
@@ -242,7 +226,6 @@ function createDisplayController(){
             board_square.addEventListener("click", () => {
                 let current_player = gameController.getCurrentPlayer();
 
-                // verify input
                 gameController.playRound(createPosition(i, j));
 
                 updateDisplay();
