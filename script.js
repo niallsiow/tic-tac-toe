@@ -1,5 +1,17 @@
-function createGameController(gameboard, player1, player2){
-    current_player = player1;
+function createPosition(a, b){
+    const x = a;
+    const y = b;
+
+    return {x, y};
+}
+
+function createGameController(player1, player2){
+    let gameboard = createGameboard();
+    let current_player = player1;
+
+    function getGameboard(){
+        return gameboard;
+    }
 
     function switchCurrentPlayer(){
         if(current_player == player1){
@@ -10,8 +22,47 @@ function createGameController(gameboard, player1, player2){
         }
     }
 
+    const getCurrentPlayer = () => {
+        return current_player;
+    }
+
+    const didPlayerWin = () => {
+
+    }
+
+    const playRound = (position) => {
+        gameboard.setPosition(position, current_player);
+
+        gameboard.printGameboard();
+
+        console.log(current_player.name);
+
+        // check for win
+        if(gameboard.playerWin(current_player)){
+            console.log(`${current_player.name} Wins!`);
+            current_player.wins += 1;
+
+            return;
+        }
+
+        switchCurrentPlayer();
+
+        // get a position -> screen controller callback
+
+        // update the position -> gameboard
+
+        // update the display -> screen controller
+
+        // check for a win -> gameboard
+
+        // swap player -> gamecontroller
+    }
+
     const playGame = () => {
+        gameboard.printGameboard();
+        
         current_player = player1;
+        
         while(1){
             // get position
             let position = current_player.getPosition(gameboard);
@@ -35,17 +86,14 @@ function createGameController(gameboard, player1, player2){
         }
     }
 
-    return {playGame};
+    return {getGameboard, getCurrentPlayer, playRound};
 }
 
 function createPlayer(name, token, icon, cpu){
     let wins = 0;
 
     const getPosition = (gameboard) => {
-        let position = {
-            x: -1,
-            y: -1
-        }
+        let position = createPosition(-1, -1);
 
         if(cpu){
             while(!gameboard.isPositionValid(position)){
@@ -153,14 +201,35 @@ function createGameboard(){
     return {printGameboard, setPosition, playerWin, isPositionValid, resetBoard};
 }
 
+function createDisplay(gameController){
+}
 
+function createDisplayController(){ 
+    const player1 = createPlayer("Player 1", 1, "X");
+    const player2 = createPlayer("CPU player", 2, "O");
+    
+    const gameController = createGameController(player1, player2);
 
-const gameboard = createGameboard();
-gameboard.printGameboard();
+    // set up board on screen
+    const board_container = document.getElementById("board-container");
+    
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j < 3; j++){
+            const board_square = document.createElement("div");
+            board_square.classList.add("board-square");
+    
+            board_square.addEventListener("click", () => {
+                let current_player = gameController.getCurrentPlayer();
 
-const player1 = createPlayer("Player 1", 1, "X");
-const player2 = createPlayer("Player 2", 2, "O", true);
+                gameController.playRound(createPosition(i, j));
 
-const gameController = createGameController(gameboard, player1, player2);
+                board_square.textContent = current_player.icon;
+            });
+    
+            board_container.appendChild(board_square);
+        }
+    }
+}
 
-gameController.playGame();
+const display = createDisplayController();
+

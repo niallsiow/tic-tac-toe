@@ -1,0 +1,14 @@
+html, body{
+}
+
+#board-container{
+    display: grid;
+
+    grid-template-columns: repeat(3, 20vw);
+}
+
+.board-square{
+    height: 20vh;
+
+    border: 1px solid black;
+}
