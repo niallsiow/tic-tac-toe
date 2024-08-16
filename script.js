@@ -35,6 +35,12 @@ function createGameController(player1, player2){
         return winning_player;
     }
 
+    const resetGame = () => {
+        gameboard.resetBoard();
+        winning_player = null;
+        current_player = player1;
+    }
+
     const playRound = (position) => {
         if(!gameboard.isPositionValid(position)){
             return;
@@ -51,7 +57,7 @@ function createGameController(player1, player2){
         switchCurrentPlayer();
     }
 
-    return {getGameboard, getCurrentPlayer, getWinningPlayer, playRound};
+    return {getGameboard, getCurrentPlayer, getWinningPlayer, playRound, resetGame};
 }
 
 function createPlayer(name, token, icon, cpu){
@@ -199,7 +205,10 @@ function createDisplayController(){
         if(winning_player){
             win_div.textContent = `${winning_player.name} Wins!`;
 
-            // play again + reset logic here
+            // play again + reset logic here (bring up a dialog box for playing again and display winning player + number of wins)
+        }
+        else{
+            win_div.textContent = "";
         }
 
         const board = gameController.getGameboard();
@@ -210,8 +219,11 @@ function createDisplayController(){
                 if(board_state[i][j] == player1.token){
                     board_squares[i][j].textContent = player1.icon;
                 }
-                if(board_state[i][j] == player2.token){
+                else if(board_state[i][j] == player2.token){
                     board_squares[i][j].textContent = player2.icon;
+                }
+                else{
+                    board_squares[i][j].textContent = "";
                 }
             }
         }
@@ -243,6 +255,14 @@ function createDisplayController(){
             board_container.appendChild(board_square);
         }
     }
+
+    const play_again_button = document.getElementById("play-again");
+    play_again_button.addEventListener("click", () => {
+        if(gameController.getWinningPlayer()){
+            gameController.resetGame();
+            updateDisplay();
+        }
+    });
 }
 
 const display = createDisplayController();
