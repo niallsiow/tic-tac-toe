@@ -6,6 +6,7 @@ function createGameController(player1, player2){
     let gameboard = createGameboard();
     let current_player = player1;
     let winning_player = null;
+    let draw = null;
 
     function getGameboard(){
         return gameboard;
@@ -33,8 +34,18 @@ function createGameController(player1, player2){
         return winning_player;
     }
 
+    const setDraw = () => {
+        draw = true;
+    }
+
+    const getDraw = () => {
+        return draw;
+    }
+
     const resetGame = () => {
         gameboard.resetBoard();
+
+        draw = null;
         winning_player = null;
         current_player = player1;
     }
@@ -52,10 +63,14 @@ function createGameController(player1, player2){
             setWinningPlayer();
         }
 
+        if(gameboard.isFull()){
+            setDraw();
+        }
+
         switchCurrentPlayer();
     }
 
-    return {getGameboard, getCurrentPlayer, getWinningPlayer, playRound, resetGame};
+    return {getGameboard, getCurrentPlayer, getWinningPlayer, getDraw, playRound, resetGame};
 }
 
 function createPlayer(name, token, icon, cpu){
@@ -132,6 +147,17 @@ function createGameboard(){
         return true;
     }
 
+    const isFull = () => {
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                if(board[i][j] == 0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     // check for wins
     const didPlayerWin = (player) => {
         // winning positions from the perspective of the middle square
@@ -184,7 +210,7 @@ function createGameboard(){
         }
     }
     
-    return {getBoardState, printGameboardToConsole, setPosition, didPlayerWin, isPositionValid, resetBoard};
+    return {getBoardState, printGameboardToConsole, setPosition, didPlayerWin, isFull, isPositionValid, resetBoard};
 }
 
 function createDisplay(gameController){
@@ -211,6 +237,9 @@ function createDisplayController(){
 
             // bring up a dialog box for playing again and display winning player + number of wins
 
+        }
+        else if(gameController.getDraw()){
+            win_div.textContent = "Draw...";
         }
         else{
             win_div.textContent = "";
@@ -266,6 +295,10 @@ function createDisplayController(){
     const play_again_button = document.getElementById("play-again");
     play_again_button.addEventListener("click", () => {
         if(gameController.getWinningPlayer()){
+            gameController.resetGame();
+            updateDisplay();
+        }
+        if(gameController.getDraw()){
             gameController.resetGame();
             updateDisplay();
         }
