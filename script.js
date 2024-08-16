@@ -221,11 +221,16 @@ function createDisplayController(){
 
         for(let i = 0; i < 3; i++){
             for(let j = 0; j < 3; j++){
+                board_squares[i][j].classList.remove("player-1");
+                board_squares[i][j].classList.remove("player-2");
+
                 if(board_state[i][j] == player1.token){
                     board_squares[i][j].textContent = player1.icon;
+                    board_squares[i][j].classList.add("player-1");
                 }
                 else if(board_state[i][j] == player2.token){
                     board_squares[i][j].textContent = player2.icon;
+                    board_squares[i][j].classList.add("player-2");
                 }
                 else{
                     board_squares[i][j].textContent = "";

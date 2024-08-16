@@ -2,6 +2,10 @@
     --square-length: min(25vw, 22vh);
 }
 
+*{
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 html, body{
 }
 
@@ -29,4 +33,12 @@ body{
     border: 1px solid black;
 
     font-size: var(--square-length);
+}
+
+.player-1{
+    color: rgb(255, 100, 80);
+}
+
+.player-2{
+    color: rgb(50, 115, 255);
 }
