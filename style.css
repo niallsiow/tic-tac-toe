@@ -1,3 +1,7 @@
+:root{
+    --square-length: min(25vw, 22vh);
+}
+
 html, body{
 }
 
@@ -11,11 +15,18 @@ body{
 #board-container{
     display: grid;
 
-    grid-template-columns: repeat(3, 20vw);
+    grid-template-columns: repeat(3, var(--square-length));
 }
 
 .board-square{
-    height: 20vh;
+    height: var(--square-length);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     border: 1px solid black;
+
+    font-size: var(--square-length);
 }
