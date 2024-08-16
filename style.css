@@ -6,9 +6,6 @@
     font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-html, body{
-}
-
 body{
     display: flex;
     flex-direction: column;
