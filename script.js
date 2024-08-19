@@ -290,7 +290,7 @@ function createDisplayController(){
                 isRunning = false;
                 
                 updateDisplay();
-            }, 1000);
+            }, 500);
 
 
             
