@@ -57,8 +57,6 @@ function createGameController(player1, player2){
 
         gameboard.setPosition(position, current_player);
 
-        gameboard.printGameboardToConsole();
-
         if(gameboard.didPlayerWin(current_player)){
             setWinningPlayer();
         }
