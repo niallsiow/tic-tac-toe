@@ -76,29 +76,18 @@ function createGameController(player1, player2){
 function createPlayer(name, token, icon, cpu){
     let wins = 0;
 
-    const getPosition = (gameboard) => {
+    const getCpuPosition = (gameboard) => {
         let position = createPosition(-1, -1);
 
-        if(cpu){
-            while(!gameboard.isPositionValid(position)){
-                position.x = Math.floor(Math.random() * 3);
-                position.y = Math.floor(Math.random() * 3);
-            }
-        }
-        else{
-            position.x = prompt("Enter x position:");
-            position.y = prompt("Enter y position:");
-            while(!gameboard.isPositionValid(position)){
-                console.log("Invalid position, please enter a new one");
-                position.x = prompt("Enter x position:");
-                position.y = prompt("Enter y position:");
-            }
+        while(!gameboard.isPositionValid(position)){
+            position.x = Math.floor(Math.random() * 3);
+            position.y = Math.floor(Math.random() * 3);
         }
 
         return position;
     }
 
-    return {name, token, icon, wins, getPosition};
+    return {name, token, icon, wins, cpu, getCpuPosition};
 }
 
 function createGameboard(){
@@ -215,7 +204,7 @@ function createGameboard(){
 
 function createDisplayController(){ 
     const player1 = createPlayer("Player 1", 1, "X");
-    const player2 = createPlayer("CPU player", 2, "O");
+    const player2 = createPlayer("CPU player", 2, "O", true);
     
     const gameController = createGameController(player1, player2);
 
@@ -223,7 +212,7 @@ function createDisplayController(){
 
     function updateDisplay(){
         const current_player_div = document.getElementById("current-player");
-        let current_player = gameController.getCurrentPlayer();
+        const current_player = gameController.getCurrentPlayer();
         current_player_div.textContent = `Current Player: ${current_player.name}`;
 
         const win_div = document.getElementById("win");
@@ -287,6 +276,29 @@ function createDisplayController(){
         }
     }
 
+    let isRunning = false;
+    async function checkAndMakeCpuTurn(){
+        const current_player = gameController.getCurrentPlayer();
+        if(current_player.cpu && gameController.getWinningPlayer() == null){
+            isRunning = true;
+
+            // small timeout before cpu plays
+            setTimeout(() => {
+
+                const cpu_position = current_player.getCpuPosition(gameController.getGameboard());
+
+                gameController.playRound(cpu_position);
+                
+                isRunning = false;
+                
+                updateDisplay();
+            }, 1000);
+
+
+            
+        }
+    }
+
     // set up display
     const board_container = document.getElementById("board-container");
     const board_squares = [
@@ -301,10 +313,18 @@ function createDisplayController(){
             board_squares[i][j] = board_square;
 
             board_square.classList.add("board-square");
-    
-            board_square.addEventListener("click", () => {
-                gameController.playRound(createPosition(i, j));
-                updateDisplay();
+
+            board_square.addEventListener("click", async () => {
+                if(isRunning){
+                    return;
+                }
+
+                if(!gameController.getCurrentPlayer().cpu){
+                    gameController.playRound(createPosition(i, j));
+                    updateDisplay();
+                }
+                
+                await checkAndMakeCpuTurn();
             });
     
             board_container.appendChild(board_square);
@@ -336,6 +356,14 @@ function createDisplayController(){
     reset_button.addEventListener("click", () => {
         gameController.resetGame();
         updateDisplay();
+    });
+
+    const set_cpu = document.getElementById("set-cpu");
+    set_cpu.checked = player2.cpu;
+    set_cpu.addEventListener("change", async () => {
+        player2.cpu = set_cpu.checked;
+
+        await checkAndMakeCpuTurn();
     });
 
     updateDisplay();
