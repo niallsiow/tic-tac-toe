@@ -1,5 +1,6 @@
 :root{
     --square-length: min(25vw, 22vh);
+    --board-border-width: min(20px, 3vw);
 }
 
 *{
@@ -18,6 +19,10 @@ body{
 
 input, button, dialog{
     border: 1px solid #565254;
+}
+
+button{
+    font-size: 20px;
 }
 
 button:focus{
@@ -42,19 +47,19 @@ button:focus{
 }
 
 .top-row{
-    border-bottom: 20px solid #A9F0D1;
+    border-bottom: var(--board-border-width) solid #A9F0D1;
 }
 
 .bottom-row{
-    border-top: 20px solid #A9F0D1;
+    border-top: var(--board-border-width) solid #A9F0D1;
 }
 
 .left-column{
-    border-right: 20px solid #A9F0D1;
+    border-right: var(--board-border-width) solid #A9F0D1;
 }
 
 .right-column{
-    border-left: 20px solid #A9F0D1;
+    border-left: var(--board-border-width) solid #A9F0D1;
 }
 
 .player-1{
