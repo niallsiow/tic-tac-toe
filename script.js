@@ -231,6 +231,25 @@ function createDisplayController(){
 
         if(winning_player){
             current_player_div.textContent = `Current Player: ${winning_player.name}`;
+
+            if(winning_player == player1){
+                const player_1_wins = document.getElementById("player-1-wins");
+                if(player1.wins == 1){
+                    player_1_wins.textContent = `${player1.wins} Win`;
+                }
+                else{
+                    player_1_wins.textContent = `${player1.wins} Wins`;
+                }
+            }
+            else{
+                const player_2_wins = document.getElementById("player-2-wins");
+                if(player2.wins == 2){
+                    player_2_wins.textContent = `${player2.wins} Win`;
+                }
+                else{
+                    player_2_wins.textContent = `${player2.wins} Wins`;
+                }
+            }
             
             win_div.textContent = `${winning_player.name} Wins! ${winning_player.name} has ${winning_player.wins} wins.`;
 
