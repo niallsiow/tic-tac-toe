@@ -277,7 +277,8 @@ function createDisplayController(){
     let isRunning = false;
     async function checkAndMakeCpuTurn(){
         const current_player = gameController.getCurrentPlayer();
-        if(current_player.cpu && gameController.getWinningPlayer() == null){
+
+        if(current_player.cpu && gameController.getWinningPlayer() == null && !gameController.getDraw()){
             isRunning = true;
 
             // small timeout before cpu plays
