@@ -238,12 +238,12 @@ function createDisplayController(){
                 }
             }
             
-            win_div.textContent = `${winning_player.name} Wins! ${winning_player.name} has ${winning_player.wins} wins.`;
+            win_div.textContent = `${winning_player.name} Wins!`;
 
             play_again_dialog.showModal();
         }
         else if(gameController.getDraw()){
-            win_div.textContent = `Draw! ${player1.name} has ${player1.wins} wins, ${player2.name} has ${player2.wins} wins.`;
+            win_div.textContent = `Draw!`;
 
             play_again_dialog.showModal();
         }
