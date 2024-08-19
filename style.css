@@ -10,7 +10,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
 }
 
 #board-container{
@@ -52,4 +52,22 @@ body{
 #player-data-container{
     display: grid;
     grid-template-columns: repeat(2, var(--square-length));
+
+    gap: 10vw;
+
+    padding-top: 10px;
+}
+
+.player-info{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    align-items: center;
+}
+
+.name-input{
+    width: min(150px, 22vw);
+
+    text-align: center;
 }
