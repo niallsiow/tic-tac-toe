@@ -178,7 +178,6 @@ function createGameboard(){
                         }
 
                         if(board[pos1_r][pos1_c] == player.token && board[pos2_r][pos2_c] == player.token){
-                            console.log(`${player.name} wins!`);
                             return true;
                         }
                     }
