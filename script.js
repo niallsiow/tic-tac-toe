@@ -332,6 +332,12 @@ function createDisplayController(){
         updateDisplay();
     });
 
+    const reset_button = document.getElementById("reset-game");
+    reset_button.addEventListener("click", () => {
+        gameController.resetGame();
+        updateDisplay();
+    });
+
     updateDisplay();
 }
 
