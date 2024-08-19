@@ -48,3 +48,8 @@ body{
 
     padding: 5px;
 }
+
+#player-data-container{
+    display: grid;
+    grid-template-columns: repeat(2, var(--square-length));
+}
