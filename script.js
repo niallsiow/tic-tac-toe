@@ -312,6 +312,25 @@ function createDisplayController(){
 
             board_square.classList.add("board-square");
 
+            if(i == 0){
+                board_square.classList.add("top-row");
+            }
+            if(i == 1){
+                board_square.classList.add("middle-row");
+            }
+            if(i == 2){
+                board_square.classList.add("bottom-row");
+            }
+            if(j == 0){
+                board_square.classList.add("left-column");
+            }
+            if(j == 1){
+                board_square.classList.add("middle-column");
+            }
+            if(j == 2){
+                board_square.classList.add("right-column");
+            }
+
             board_square.addEventListener("click", async () => {
                 if(isRunning){
                     return;

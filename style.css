@@ -38,9 +38,23 @@ button:focus{
     justify-content: center;
     align-items: center;
 
-    border: 1px solid #A9F0D1;
-
     font-size: var(--square-length);
+}
+
+.top-row{
+    border-bottom: 20px solid #A9F0D1;
+}
+
+.bottom-row{
+    border-top: 20px solid #A9F0D1;
+}
+
+.left-column{
+    border-right: 20px solid #A9F0D1;
+}
+
+.right-column{
+    border-left: 20px solid #A9F0D1;
 }
 
 .player-1{
