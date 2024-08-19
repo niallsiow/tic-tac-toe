@@ -299,6 +299,20 @@ function createDisplayController(){
         play_again_dialog.close();
     });
 
+    const player1_name_input = document.getElementById("player-1-name");
+    player1_name_input.value = player1.name;
+    player1_name_input.addEventListener("input", () => {
+        player1.name = player1_name_input.value;
+        updateDisplay();
+    });
+
+    const player2_name_input = document.getElementById("player-2-name");
+    player2_name_input.value = player2.name;
+    player2_name_input.addEventListener("input", () => {
+        player2.name = player2_name_input.value;
+        updateDisplay();
+    });
+
     updateDisplay();
 }
 
